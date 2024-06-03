@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RE0: Recognize Everything with 3D Zero-shot Open-Vocabulary Instance Segmentation</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link href="css/css2" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+
+  <!-- cover -->
+  <section>
+    <div class="jumbotron text-center mt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1>RE0: Recognize Everything with 3D Zero-shot Open-Vocabulary Instance Segmentation</h1>
+            <!-- <h4 style="color:#5a6268;">In submission</h4> -->
+            <hr>
+            <!-- <h5> 
+              <a href="https://github.com/ghy0324" target="_blank">Haoyu Guo</a><sup>1*</sup>, 
+              <a href="https://github.com/Ada4321" target="_blank">He Zhu</a><sup>2*^</sup>, 
+              <a href="https://pengsida.net" target="_blank">Sida Peng</a><sup>1</sup>,
+              <a href="https://github.com/angshine" target="_blank">Yuang Wang</a><sup>1</sup>,
+              <a href="https://shenyujun.github.io/" target="_blank">Yujun Shen</a><sup>3</sup>,
+              <a href="https://csse.szu.edu.cn/staff/ruizhenhu/" target="_blank">Ruizhen Hu</a><sup>4</sup>,
+              <a href="https://xzhou.me" target="_blank">Xiaowei Zhou</a><sup>1</sup>
+            </h5> -->
+            <!-- <p><sup>1</sup>Zhejiang University &nbsp;&nbsp; 
+                <sup>2</sup>Beijing Normal University &nbsp;&nbsp; 
+                <sup>3</sup>Ant Group &nbsp;&nbsp; 
+                <sup>4</sup>Shenzhen University
+                <br>
+                <sup>*</sup> Equal contribution.
+                <br>
+                <sup>^</sup> Work done during internship at Zhejiang University. </p> -->
+                
+
+            <div class="row justify-content-center">
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="src/RE0_for_NeurIPS_2024.pdf" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Paper</a> </p>
+              </div>
+              <div class="column">
+                <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/RecognizeEverything/Re0" role="button"  target="_blank">
+                  <i class="fa fa-github-alt"></i> Code</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="" role="button">
+                    <i class="fa fa-file"></i> Supplementary </a> </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- teaser -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <hr style="margin-top:0px">
+            <div class="column is-full-width">
+                <img src="src/ssr_teaser.png" style="width: 100%; height: auto;">
+            </div>
+        </div> 
+      </div>
+    </div>
+  </section>
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Abstract</h3>
+            <hr style="margin-top:0px">
+              <p class="text-left"> In this paper, we introduce a novel zero-shot 3D instance segmentation framework called RE0. We leverage the 3D geometry information in 3D point cloud, the projection relationship between 3D point cloud and multi-view 2D posed RGB-D frames and the semantic features extracted by CLIP from multi-view 2D posed RGB-D frames to address the challenge of 3D instance segmentation. Specifically, we utilize Cropformer to extract mask information from multi-view posed images, combined with projection relationships to assign point-level labels to each point in the point cloud, and achieve instance-level consistency through inter-frame information interaction. Then, we employ projection relationships again to assign CLIP semantic features to the point cloud and achieve aggregation of small-scale point clouds. Due to the particularity of zero-shot 3D instance segmentation, we introduce the 3D open-vocabulary task to evaluate our method. Notably, RE0 does not require any additional training and can be implemented by supporting only one inference of Cropformer and one inference of CLIP. Experiments on ScanNet200 benchmark show that our method achieves higher quality segmentation than the previous zero-shot methods. Besides, our method even surpasses the human-level annotations in many cases. </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+    <!-- reconstruction showcase -->
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+              <h3>Segmentation results showcase</h3>
+              <hr style="margin-top:0px">
+              <div class="embed-responsive embed-responsive-16by9"> 
+                <iframe title="Scene0406_01" style="clip-path: inset(1px 1px)" width="100%" height="100%"   src="https://sketchfab.com/playlists/embed?collection=a2a2becb541946cea8f1e1bab8452f07&autostart=1&autospin=0.25" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" mozallowfullscreen="true" webkitallowfullscreen="true"> 
+                </iframe>
+                </div>
+              <br>
+              <p> Zoom in by scrolling. You can toggle the “Single Sided” option in Model Inspector (pressing I key) to enable back-face culling (see through walls).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <br>
+
+  <br>
+
+
+  <!-- comparison -->
+  <!--
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Comparisons</h3>
+          <hr style="margin-top:0px">
+          <div class="column is-full-width">
+            <div class="tabs">
+              <div class="tab" data-tab-for="example1,example2" onclick="showExamples('example1', 'example2', this)">SAM3D</div>
+              <div class="tab" data-tab-for="example3,example4" onclick="showExamples('example3', 'example4', this)">SAMpro3D</div>
+              <div class="tab" data-tab-for="example5,example6" onclick="showExamples('example5', 'example6', this)">Mask3D</div>
+            </div>
+            <div id="example1" class="bal-container-small example">
+              <div class="bal-after">
+                <img src="src/ours_sam3d_2.png">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/sam3d_2.jpg">
+                  <div class="bal-beforePosition beforeLabel">
+                    SAM3D [Yang 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            </div>
+
+            <div id="example1" class="bal-container-small example">
+              <div class="bal-after">
+                <img src="src/ours_1.png">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/sampro3d_1.png">
+                  <div class="bal-beforePosition beforeLabel">
+                    SAMPro3d [Mutian Xu 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            </div> 
+
+            <div id="example2" class="bal-container-small example" style="display:none;">
+    
+              <div class="bal-after">
+                <img src="src/ours_1.png">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/sam3d_1.jpg">
+                  <div class="bal-beforePosition beforeLabel">
+                    SAM3D [Yang 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            
+            </div>
+
+            <div id="example3" class="bal-container-small example">
+              <div class="bal-after">
+                <img src="src/ours_1.png">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/sampro3d_1.png">
+                  <div class="bal-beforePosition beforeLabel">
+                    SAMPro3d [Mutian Xu 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            </div> 
+
+            <div id="example4" class="bal-container-small example" style="display:none;">
+    
+              <div class="bal-after">
+                <img src="src/578-ours.png">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/578-sam3d.png">
+                  <div class="bal-beforePosition beforeLabel">
+                    SAMPro3d [Mutian Xu 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            
+            </div>
+
+            <div id="example5" class="bal-container-small example">
+    
+              <div class="bal-after">
+                <img src="src/ours_mask3d_1.jpg">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/mask3d_1.png">
+                  <div class="bal-beforePosition beforeLabel">
+                    Mask3D [Schult 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            
+            </div>
+
+            <div id="example6" class="bal-container-small example">
+    
+              <div class="bal-after">
+                <img src="src/00-ours.png">
+                <div class="bal-afterPosition afterLabel" style="z-index:1;">
+                  Ours
+                </div>
+              </div>
+            
+              <div class="bal-before" style="width:1.910828025477707%;">
+                <div class="bal-before-inset" style="width: 628px;">
+                <img src="src/00-sam3d.png">
+                  <div class="bal-beforePosition beforeLabel">
+                    Mask3D [Schult 2023]
+                  </div>
+                </div>
+              </div>
+            
+              <div class="bal-handle" style="left:1.910828025477707%;">
+                <span class=" handle-left-arrow"></span>
+                <span class="handle-right-arrow"></span>
+              </div>
+            
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+  
+  <br>
+
+
+  
+
+  <!-- citing -->
+  <!-- <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Citation</h3>
+          <hr style="margin-top:0px">
+            <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+<code>@article{guo2023sam-graph,
+  title={SAM-guided Graph Cut for 3D Instance Segmentation},
+  author={Guo, Haoyu and Zhu, He and Peng, Sida and Wang, Yuang and Shen, Yujun and Hu, Ruizhen and Zhou, Xiaowei},
+  journal={arXiv preprint arXiv:2312.08372},
+  year={2023}
+}</code></pre>
+          <hr>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <footer class="text-center" style="margin-bottom:10px">
+      Thanks to <a href="https://lioryariv.github.io/" target="_blank">Lior Yariv</a> for the <a href="https://lioryariv.github.io/idr/" target="_blank">website template</a>.
+  </footer> -->
+
+  <script src="js/script.js"></script>
+
+</body>
+</html>
